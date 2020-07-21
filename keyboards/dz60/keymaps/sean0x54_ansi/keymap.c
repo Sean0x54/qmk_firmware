@@ -1,4 +1,13 @@
-#include QMK_KEYBOARD_H
+#include QMK_KEYBOARD_H #define HSV_BLACK  0, 0, 0 #undef HSV_ORANGE #define HSV_ORANGE 10,255,255 // Tap Dance declarations
+enum { 
+    TD_QUOT_GRAVE,
+};
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+    // Tap once for single quote, twice for grave
+    [TD_QUOT_GRAVE] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_GRAVE),
+};
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -19,7 +28,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[0] = LAYOUT_60_ansi(
       KC_GESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_BSPC, 
       KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSLS, 
-      KC_CAPS, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_ENT, 
+      KC_CAPS, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, TD(TD_QUOT_GRAVE), KC_ENT, 
       KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP), 
       KC_LCTL, KC_LALT, KC_LGUI,     KC_SPC,     TG(2), RALT_T(KC_LEFT), RCTL_T(KC_DOWN), LT(1,KC_RGHT)
       ), 
@@ -63,26 +72,62 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[2] = LAYOUT_60_ansi(
       KC_PWR, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, RESET, 
       BL_TOGG, BL_INC, BL_DEC, BL_BRTG, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, RGB_SAD, RGB_SAI, KC_NO, 
-      RGB_TOG, RGB_VAI, RGB_VAD, KC_NO, KC_NO, KC_NO, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, RGB_HUI, 
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_TRNS, RGB_RMOD, RGB_HUD, RGB_MOD
-      )
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, LC_MS_U, 
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_TRNS, LC_MS_L, KC_MS_D, KC_MS_R)
 };
 
+const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 16, HSV_BLACK}
+);
 
+// Light LEDs 9 & 10 in cyan when keyboard layer 1 is active
+const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {8, 1, HSV_CYAN}
+);
+// Light LEDs 11 & 12 in purple when keyboard layer 2 is active
+const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {10, 1, HSV_PURPLE}
+);
+
+// Now define the array of layers. Later layers take precedence
+const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    my_capslock_layer,
+    my_layer1_layer,    // Overrides caps lock layer
+    my_layer2_layer     // Overrides other layers
+);
+
+void keyboard_post_init_user(void) {
+    rgblight_layers = my_rgb_layers;
+    rgblight_setrgb(RGB_ORANGE);
+    rgblight_sethsv_noeeprom(HSV_ORANGE);
+
+}
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    // Both layers will light up if both kb layers are active
+    rgblight_set_layer_state(1, layer_state_cmp(state, 1));
+    rgblight_set_layer_state(2, layer_state_cmp(state, 2));
+
+    return state;
+}
+
+bool led_update_user(led_t led_state) {
+    rgblight_set_layer_state(0, !led_state.caps_lock);
+    return true;
+}
+
+/*
 layer_state_t layer_state_set_user(layer_state_t  state) {
     switch (biton32(state)) {
     case 1:
-        rgblight_setrgb (0xFF,  0x00, 0x00);
+        rgblight_sethsv_noeeprom_white();
         break;
     case 2:
-        rgblight_setrgb (0x00,  0xFF, 0x00);
-        break;
-    case 3:
-        rgblight_setrgb (0x7A,  0x00, 0xFF);
+        rgblight_sethsv_noeeprom_purple();
         break;
     default: //  for any other layers, or the default layer
-        rgblight_setrgb (0x00,  0xFF, 0xFF);
+        rgblight_sethsv_noeeprom_orange();
         break;
     }
   return state;
@@ -91,6 +136,7 @@ layer_state_t layer_state_set_user(layer_state_t  state) {
 void keyboard_post_init_user(void) {
     layer_state_set_user(layer_state);
 }
+*/
 
 /*
 void matrix_init_user(void) {
@@ -105,6 +151,11 @@ void led_set_user(uint8_t usb_led) {
     PORTB &= ~(1 << 2);
   }
 }
+
+// Set underglow RGB leds to yellow
+// Find the list of available colors in quantum/rgblight_list.h
+void matrix_init_user(void) {
+  rgblight_sethsv_noeeprom_orange();
+}
+
 */
-
-
