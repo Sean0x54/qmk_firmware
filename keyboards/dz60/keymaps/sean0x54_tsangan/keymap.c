@@ -1,16 +1,4 @@
 #include QMK_KEYBOARD_H
-// Kludge to turn off RGB, set to black
-#define HSV_BLACK  0, 0, 0 
-
-// Tap Dance declarations
-enum { 
-    TD_QUOT_GRAVE,
-};
-
-qk_tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for single quote, twice for grave
-    [TD_QUOT_GRAVE] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_GRAVE),
-};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -60,36 +48,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______,      _______,    _______,    _______,    _______,    _______,    _______
       ),
 };
-
-const rgblight_segment_t PROGMEM my_layer0_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 16, HSV_BLACK}
-);
-
-// Light All LEDs in cyan when keyboard layer 1 is active
-const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 16, HSV_WHITE}
-);
-
-// Now define the array of layers. Later layers take precedence
-const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    my_layer0_layer,
-    my_layer1_layer
-);
-
-void keyboard_post_init_user(void) {
-    rgblight_layers = my_rgb_layers;
-    rgblight_set_layer_state(0, true);
-}
-
-layer_state_t layer_state_set_user(layer_state_t state) {
-    rgblight_set_layer_state(0, layer_state_cmp(state, 0));
-    rgblight_set_layer_state(1, layer_state_cmp(state, 1));
-    return state;
-}
-
-/*
-bool led_update_user(led_t led_state) {
-    rgblight_set_layer_state(0, !led_state.caps_lock);
-    return true;
-}
-*/

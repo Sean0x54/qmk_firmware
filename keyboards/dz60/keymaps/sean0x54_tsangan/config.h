@@ -7,5 +7,3 @@
 #ifdef RGBLIGHT_ENABLE
 #define RGBLIGHT_SLEEP
 #endif // RGBLIGHT_ENABLE
-
-#define TAPPING_TOGGLE 2

@@ -1,0 +1,4 @@
+SRC += sean0x54.c
+
+#TAP_DANCE_ENABLE = yes
+BOOTMAGIC_ENABLE = lite
