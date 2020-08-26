@@ -37,10 +37,12 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
     if (layer_state_cmp(state,1)) {
         backlight_enable();
-        rgblight_enable();
+        //rgblight_enable();
+        backlight_enable();
     } else {
         backlight_disable();
         rgblight_disable();
+        backlight_disable();
     }
 
     return state;
