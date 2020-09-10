@@ -60,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |-----------------------------------------------------------------------------------------|
      * | CAPS   |RGB  |RGBM | BL  | BL+ |     |     |      |Print|SLock|Pause| UP |     |        |
      * |-----------------------------------------------------------------------------------------|
-     * |        | VOL+ | VOL- | MUTE | EJECT|    |     |    | HOME | PGUP| LEFT | RIGHT|         |
+     * |        | VOL+ | VOL- | MUTE | PLAY |    |     |    | HOME | PGUP| LEFT | RIGHT|         |
      * |-----------------------------------------------------------------------------------------|
      * |          |      |     |     |     |      |      |      | END  |PGDN  |DOWN |       |    |
      * |-----------------------------------------------------------------------------------------|
@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[1] = LAYOUT(
       KC_GRAVE, KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,      KC_F6,    KC_F7,    KC_F8,     KC_F9,    KC_F10,   KC_F11,      KC_F12,     KC_INS,     KC_DEL,
       KC_CAPS,  RGB_TOG,    RGB_MOD,    RGB_RMOD,   BL_TOGG,    BL_STEP,    _______,   _______, KC_PSCR,   KC_SLCK,  KC_PAUSE, KC_UP,       _______,    _______,
-      _______,  KC_VOLD,    KC_VOLU,    KC_MUTE,    KC_MEDIA_EJECT, _______,    _______,  _______,  KC_HOME,   KC_PGUP,  KC_LEFT,  KC_RIGHT,    _______,
+      _______,  KC_VOLD,    KC_VOLU,    KC_MUTE,    KC_MPLY,    _______,    _______,  _______,  KC_HOME,   KC_PGUP,  KC_LEFT,  KC_RIGHT,    _______,
       _______,  _______,  _______,    _______,    _______,    _______,    _______,_______,_______,KC_END,KC_PGDN,KC_DOWN,_______,_______,
       _______,  _______,    _______,    _______,    _______,    _______,_______,_______,_______,_______,  _______
       ),
