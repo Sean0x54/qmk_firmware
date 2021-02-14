@@ -21,7 +21,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TAB,   KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_LBRC,    KC_RBRC,    KC_BSPC, 
       KC_LCTL,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,   KC_H,   KC_J,   KC_K,   KC_L,   KC_SCLN,KC_QUOTE,   KC_ENT, 
       KC_LSFT,  _______,KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,   KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH, RSFT_T(KC_UP), TT(1),
-      KC_LCTL, KC_LALT, KC_LGUI,_______,KC_SPC, _______,_______, RGUI_T(KC_LEFT),_______,RALT_T(KC_DOWN),RCTL_T(KC_RIGHT)
+      KC_LCTL, KC_LGUI, KC_LALT,_______,KC_SPC, _______,_______, RALT_T(KC_LEFT),_______,RGUI_T(KC_DOWN),RCTL_T(KC_RIGHT)
       ), 
 
     /* Layer 1: HHKB
